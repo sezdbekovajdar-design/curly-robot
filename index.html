@@ -1,0 +1,1049 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гараж: KIA K5 2017 / Sprinter 1998</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap');
+ 
+  :root{
+    --bg: #eef0f2;
+    --bg-soft: #ffffff;
+    --ink: #15191d;
+    --ink-soft: #4a5158;
+    --line: #d4d8dc;
+    --accent: #2f7cf6;
+    --accent-soft: #e7f0ff;
+    --card: #ffffff;
+    --shadow: 0 10px 30px rgba(20,25,30,0.08);
+    --radius: 14px;
+    --headlight-off: #b9c0c7;
+  }
+ 
+  body[data-theme="dark"]{
+    --bg: #0e1013;
+    --bg-soft: #15181c;
+    --ink: #eef0f2;
+    --ink-soft: #9aa3ab;
+    --line: #262a2f;
+    --accent: #4f9bff;
+    --accent-soft: #16263d;
+    --card: #15181c;
+    --shadow: 0 10px 30px rgba(0,0,0,0.55);
+    --headlight-off: #2a2e33;
+  }
+ 
+  *{margin:0;padding:0;box-sizing:border-box;}
+ 
+  html{scroll-behavior:smooth;}
+ 
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Barlow', sans-serif;
+    transition: background .35s ease, color .35s ease;
+    overflow-x: hidden;
+  }
+ 
+  h1,h2,h3,.brand,.stat-num{
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+ 
+  a{color:inherit;text-decoration:none;}
+  button{font-family:'Barlow',sans-serif;}
+ 
+  /* ===== HEADER ===== */
+  header{
+    position: sticky; top:0; z-index: 50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 6vw;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand{font-size: 1.25rem; font-weight:700; display:flex; gap:10px; align-items:center;}
+  .brand span{color:var(--accent);}
+  nav{display:flex; gap: 28px; font-size:.85rem; font-weight:500; text-transform:uppercase; letter-spacing:.08em;}
+  nav button{
+    background:none; border:none; cursor:pointer; opacity:.7; transition:.2s;
+    font-size:.85rem; font-weight:500; text-transform:uppercase; letter-spacing:.08em;
+    color: var(--ink); font-family:'Barlow', sans-serif; padding:4px 0;
+  }
+  nav button:hover{opacity:1; color:var(--accent);}
+ 
+  .theme-toggle{
+    width: 56px; height: 30px; border-radius: 20px;
+    background: var(--line); border:1px solid var(--line);
+    position:relative; cursor:pointer; flex-shrink:0;
+    display:flex; align-items:center; padding:3px;
+  }
+  .theme-toggle .knob{
+    width:22px; height:22px; border-radius:50%;
+    background: var(--accent);
+    transition: transform .3s ease;
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:11px; pointer-events:none;
+  }
+  body[data-theme="dark"] .theme-toggle .knob{ transform: translateX(24px); }
+ 
+  /* ===== CAR SWITCHER ===== */
+  .car-switch{
+    display:flex; gap:6px; background:var(--bg); border:1px solid var(--line);
+    border-radius:10px; padding:4px;
+  }
+  .car-switch button{
+    background:none; border:none; cursor:pointer; padding:8px 16px;
+    border-radius:8px; font-family:'Oswald'; text-transform:uppercase;
+    letter-spacing:.05em; font-size:.78rem; font-weight:600; color:var(--ink-soft);
+    transition:.2s;
+  }
+  .car-switch button.active{ background:var(--accent); color:#fff; }
+  .car-switch button:not(.active):hover{ color:var(--ink); }
+ 
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    padding: 70px 6vw 50px;
+    display:grid; grid-template-columns: 1.05fr .95fr; gap:40px;
+    align-items:center;
+    overflow:hidden;
+  }
+  .eyebrow{
+    color:var(--accent); font-weight:600; font-size:.8rem;
+    letter-spacing:.15em; text-transform:uppercase; margin-bottom:14px;
+    display:block;
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height:1.02; font-weight:700; margin-bottom:18px;
+  }
+  .hero p{color:var(--ink-soft); font-size:1.05rem; max-width:480px; line-height:1.6; margin-bottom: 28px;}
+  .btn-row{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    padding:14px 26px; border-radius:8px; font-weight:600;
+    font-size:.85rem; text-transform:uppercase; letter-spacing:.05em;
+    cursor:pointer; border:1px solid transparent; transition:.2s;
+    font-family:'Barlow', sans-serif;
+  }
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{filter:brightness(1.08); transform:translateY(-2px);}
+  .btn-ghost{background:transparent; border-color:var(--line); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--accent); color:var(--accent);}
+ 
+  /* ===== IGNITION CARD (signature element) ===== */
+  .ignition-card{
+    background: var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:24px; position:relative;
+  }
+  .car-stage{
+    position:relative; border-radius:10px; overflow:hidden;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--ink) 6%, var(--bg)) 0%, var(--bg) 70%);
+    padding: 10px 0 0;
+  }
+  .car-svg{display:block; width:100%; height:auto;}
+  .headlight{ fill: var(--headlight-off); transition: fill .25s ease, filter .25s ease; }
+  .headlight.lit{ fill:#fff4cf; filter: drop-shadow(0 0 10px #ffe27a) drop-shadow(0 0 22px #ffd24a); }
+  .beam{ opacity:0; transition: opacity .3s ease; }
+  .beam.lit{ opacity:.55; }
+ 
+  .dash{
+    display:flex; justify-content:space-around; align-items:center;
+    padding:18px 6px 6px; gap: 10px;
+  }
+  .dial{ text-align:center; }
+  .dial svg{ width:84px; height:84px; }
+  .dial .needle{ transform-origin: 50% 50%; transition: transform .9s cubic-bezier(.2,.9,.2,1); }
+  .dial .dial-val{ font-family:'Oswald'; font-size:1.05rem; font-weight:700; margin-top:4px; color:var(--ink); }
+  .dial .dial-lbl{ font-size:.65rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; }
+ 
+  .ignition-btn{
+    width:100%; margin-top:18px; padding:16px; border-radius:10px;
+    border:1px solid var(--accent); background:transparent; color:var(--accent);
+    font-family:'Oswald'; text-transform:uppercase; letter-spacing:.08em; font-weight:600;
+    font-size:.9rem; cursor:pointer; transition:.2s; display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .ignition-btn:hover{ background:var(--accent-soft); }
+  .ignition-btn.running{ background:var(--accent); color:#fff; }
+  .ignition-btn .dot{
+    width:10px; height:10px; border-radius:50%; background: var(--ink-soft); transition:.2s;
+  }
+  .ignition-btn.running .dot{ background:#fff; box-shadow:0 0 8px #fff; animation: pulse 1s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.4;} }
+ 
+  .engine-status{ text-align:center; font-size:.78rem; color:var(--ink-soft); margin-top:10px; min-height:16px; }
+ 
+  /* ===== SECTION GENERIC ===== */
+  section{padding: 70px 6vw;}
+  .section-head{margin-bottom:40px;}
+  .section-head .eyebrow{margin-bottom:8px;}
+  .section-head h2{font-size:clamp(1.8rem,3vw,2.6rem); font-weight:600;}
+ 
+  /* ===== SPECS ===== */
+  .specs-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px;
+  }
+  .spec-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px; transition:.25s; box-shadow: var(--shadow);
+  }
+  .spec-card:hover{transform:translateY(-4px); border-color:var(--accent);}
+  .spec-card .spec-num{font-family:'Oswald'; font-size:2rem; font-weight:700; color:var(--accent); margin-bottom:6px;}
+  .spec-card .spec-lbl{font-size:.85rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.06em;}
+ 
+  /* ===== TRIM TABLE ===== */
+  .trims{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    overflow:hidden; box-shadow:var(--shadow);
+  }
+  table{width:100%; border-collapse:collapse; font-size:.92rem;}
+  th{
+    text-align:left; padding:16px 20px; background: var(--accent-soft); color:var(--accent);
+    font-family:'Oswald'; text-transform:uppercase; font-size:.75rem; letter-spacing:.07em;
+  }
+  td{padding:16px 20px; border-top:1px solid var(--line); color:var(--ink-soft);}
+  tr td:first-child{color:var(--ink); font-weight:600;}
+  tbody tr:hover{background: var(--accent-soft);}
+ 
+  /* ===== PROFILE ===== */
+  .profile-wrap{
+    display:grid; grid-template-columns: .8fr 1.2fr; gap:30px;
+  }
+  .profile-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:30px; box-shadow:var(--shadow); text-align:center;
+  }
+  .avatar{
+    width:96px; height:96px; border-radius:50%;
+    background: linear-gradient(135deg, var(--accent), #1b3a64);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Oswald'; font-size:2rem; color:#fff; font-weight:700;
+    margin: 0 auto 16px;
+  }
+  .profile-card h3{font-size:1.3rem; margin-bottom:4px;}
+  .profile-card .role{color:var(--accent); font-size:.85rem; font-weight:600; text-transform:uppercase; letter-spacing:.06em; margin-bottom:18px;}
+  .profile-stats{display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:left;}
+  .profile-stats div{background:var(--bg); border-radius:8px; padding:10px 14px;}
+  .profile-stats .stat-num{font-size:1.1rem; color:var(--accent); font-weight:700;}
+  .profile-stats .stat-lbl{font-size:.7rem; color:var(--ink-soft); text-transform:uppercase;}
+ 
+  .service-log{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow);}
+  .service-log h3{margin-bottom:18px; font-size:1.1rem;}
+  .log-item{display:flex; justify-content:space-between; align-items:center; padding:13px 0; border-bottom:1px dashed var(--line); font-size:.92rem;}
+  .log-item:last-child{border-bottom:none;}
+  .log-item .date{color:var(--ink-soft); font-size:.8rem;}
+  .log-status{font-size:.72rem; padding:4px 10px; border-radius:20px; background:var(--accent-soft); color:var(--accent); text-transform:uppercase; font-weight:600; white-space:nowrap;}
+  .log-del{
+    background:none; border:none; cursor:pointer; color:var(--ink-soft);
+    font-size:1rem; margin-left:10px; line-height:1; padding:4px;
+  }
+  .log-del:hover{ color:#e2453c; }
+  .log-right{ display:flex; align-items:center; }
+ 
+  .add-log-form{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .add-log-form input{
+    flex:1; min-width:140px; padding:10px 14px; border-radius:8px;
+    border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Barlow';
+  }
+  .add-log-form input:focus{outline:none; border-color:var(--accent);}
+  .form-hint{ font-size:.78rem; color:#e2453c; margin-top:8px; min-height:14px; }
+ 
+  /* ===== GALLERY ===== */
+  .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .gallery img{width:100%; height:220px; object-fit:cover; border-radius:var(--radius); border:1px solid var(--line); display:block;}
+ 
+  footer{
+    padding:36px 6vw; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    color:var(--ink-soft); font-size:.8rem;
+  }
+ 
+  @media (max-width:880px){
+    .hero{grid-template-columns:1fr;}
+    .profile-wrap{grid-template-columns:1fr;}
+    .gallery{grid-template-columns:1fr 1fr;}
+    nav{display:none;}
+  }
+ 
+  .hidden{ display:none !important; }
+  .van-svg .body-fill{ fill: #f4f5f6; }
+  body[data-theme="dark"] .van-svg .body-fill{ fill:#cfd3d6; }
+  .bmw-svg .body-fill{ fill: #1c1d1f; }
+  .bmw-svg .body-fill{ stroke:#1c1d1f; }
+ 
+  /* ===== GALLERY ILLUSTRATIONS (встроенные SVG, не зависят от сети) ===== */
+  .gallery-svg{
+    width:100%; height:220px; border-radius:var(--radius); border:1px solid var(--line);
+    display:block; background:var(--bg);
+  }
+  .gallery-svg figcaption{
+    font-size:.78rem; color:var(--ink-soft); margin-top:8px; text-align:center;
+  }
+  .gallery-item{ display:flex; flex-direction:column; }
+</style>
+</head>
+<body data-theme="light">
+ 
+<header>
+  <div class="brand" id="brandText">K5 <span>/ OPTIMA</span></div>
+  <nav>
+    <button data-target="specs">Характеристики</button>
+    <button data-target="trims">Версии</button>
+    <button data-target="profile">Профиль</button>
+    <button data-target="gallery">Галерея</button>
+  </nav>
+  <div class="car-switch" id="carSwitch">
+    <button class="active" data-car="k5">K5</button>
+    <button data-car="sprinter">Sprinter</button>
+    <button data-car="bmw">BMW E34</button>
+  </div>
+  <div class="theme-toggle" id="themeToggle" title="Переключить тему">
+    <div class="knob" id="themeKnob">☀</div>
+  </div>
+</header>
+ 
+<section class="hero">
+  <div>
+    <span class="eyebrow" id="heroEyebrow">Седан среднего класса · 3-е поколение</span>
+    <h1 id="heroTitle">KIA K5<br>2017</h1>
+    <p id="heroDesc">Известен на глобальном рынке как Kia Optima — спортивный седан с агрессивным дизайном решётки «тигриный нос» и турбомотором 2.0T на версии GT. Нажми «Завести двигатель» справа.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" data-target="specs">Характеристики</button>
+      <button class="btn btn-ghost" data-target="profile">Профиль владельца</button>
+    </div>
+  </div>
+ 
+  <!-- ===== K5: карточка зажигания ===== -->
+  <div class="ignition-card" id="card-k5">
+    <div class="car-stage">
+      <svg class="car-svg" viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+        <polygon class="beam" id="beamL-k5" points="60,95 -40,70 -40,120" fill="#ffe9a8"/>
+        <polygon class="beam" id="beamR-k5" points="540,95 640,70 640,120" fill="#ffe9a8"/>
+        <path d="M40 150 C50 110, 90 95, 140 90 L190 60 C230 45, 330 42, 380 58 L450 88 C500 92, 545 105, 560 150 L560 165 L40 165 Z"
+              fill="none" stroke="currentColor" stroke-width="3" />
+        <path d="M195 62 C235 48, 325 46, 372 60 L390 88 L210 88 Z" fill="none" stroke="currentColor" stroke-width="2" opacity=".5"/>
+        <circle cx="150" cy="165" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="455" cy="165" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <ellipse class="headlight" id="headL-k5" cx="55" cy="98" rx="12" ry="7"/>
+        <ellipse class="headlight" id="headR-k5" cx="548" cy="98" rx="12" ry="7"/>
+      </svg>
+    </div>
+ 
+    <div class="dash">
+      <div class="dial">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="6"/>
+          <path d="M14 70 A42 42 0 1 1 86 70" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" id="rpmArc-k5" stroke-dasharray="170" stroke-dashoffset="170"/>
+          <line class="needle" id="rpmNeedle-k5" x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="3" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="dial-val" id="rpmVal-k5">0</div>
+        <div class="dial-lbl">RPM x100</div>
+      </div>
+      <div class="dial">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="6"/>
+          <path d="M14 70 A42 42 0 1 1 86 70" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" id="spdArc-k5" stroke-dasharray="170" stroke-dashoffset="170"/>
+          <line class="needle" id="spdNeedle-k5" x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="3" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="dial-val" id="spdVal-k5">0</div>
+        <div class="dial-lbl">км/ч</div>
+      </div>
+    </div>
+ 
+    <button class="ignition-btn" id="ignitionBtn-k5" data-car="k5">
+      <span class="dot"></span>
+      <span id="ignitionLabel-k5">Завести двигатель</span>
+    </button>
+    <div class="engine-status" id="engineStatus-k5">Двигатель выключен</div>
+  </div>
+ 
+  <!-- ===== SPRINTER: карточка зажигания ===== -->
+  <div class="ignition-card hidden" id="card-sprinter">
+    <div class="car-stage">
+      <svg class="car-svg van-svg" viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+        <polygon class="beam" id="beamL-sprinter" points="65,130 -40,105 -40,160" fill="#ffe9a8"/>
+        <polygon class="beam" id="beamR-sprinter" points="535,130 640,105 640,160" fill="#ffe9a8"/>
+        <!-- высокий прямоугольный кузов фургона -->
+        <path d="M55 165 L55 70 C55 58, 65 50, 80 50 L470 50 C500 50, 520 65, 535 90 L535 165 Z"
+              class="body-fill" stroke="currentColor" stroke-width="3"/>
+        <!-- кабина/окно водителя -->
+        <path d="M70 95 L70 62 C70 58, 74 55, 80 55 L150 55 L150 95 Z" fill="none" stroke="currentColor" stroke-width="2" opacity=".5"/>
+        <line x1="150" y1="55" x2="150" y2="165" stroke="currentColor" stroke-width="2" opacity=".35"/>
+        <!-- колёса -->
+        <circle cx="140" cy="165" r="27" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="460" cy="165" r="27" fill="none" stroke="currentColor" stroke-width="3"/>
+        <!-- круглые фары как у W901-905 -->
+        <circle class="headlight" id="headL-sprinter" cx="68" cy="128" r="9"/>
+        <circle class="headlight" id="headR-sprinter" cx="522" cy="128" r="9"/>
+      </svg>
+    </div>
+ 
+    <div class="dash">
+      <div class="dial">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="6"/>
+          <path d="M14 70 A42 42 0 1 1 86 70" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" id="rpmArc-sprinter" stroke-dasharray="170" stroke-dashoffset="170"/>
+          <line class="needle" id="rpmNeedle-sprinter" x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="3" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="dial-val" id="rpmVal-sprinter">0</div>
+        <div class="dial-lbl">RPM x100</div>
+      </div>
+      <div class="dial">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="6"/>
+          <path d="M14 70 A42 42 0 1 1 86 70" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" id="spdArc-sprinter" stroke-dasharray="170" stroke-dashoffset="170"/>
+          <line class="needle" id="spdNeedle-sprinter" x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="3" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="dial-val" id="spdVal-sprinter">0</div>
+        <div class="dial-lbl">км/ч</div>
+      </div>
+    </div>
+ 
+    <button class="ignition-btn" id="ignitionBtn-sprinter" data-car="sprinter">
+      <span class="dot"></span>
+      <span id="ignitionLabel-sprinter">Завести двигатель</span>
+    </button>
+    <div class="engine-status" id="engineStatus-sprinter">Двигатель выключен</div>
+  </div>
+ 
+  <!-- ===== BMW E34: карточка зажигания ===== -->
+  <div class="ignition-card hidden" id="card-bmw">
+    <div class="car-stage">
+      <svg class="car-svg bmw-svg" viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+        <polygon class="beam" id="beamL-bmw" points="58,100 -40,75 -40,125" fill="#ffe9a8"/>
+        <polygon class="beam" id="beamR-bmw" points="542,100 640,75 640,125" fill="#ffe9a8"/>
+        <!-- чёрный седан E34: длинный капот, покатая крыша, классические пропорции -->
+        <path d="M35 155 C45 115, 80 98, 130 92 L175 58 C210 44, 320 42, 370 56 L430 92 C480 96, 530 108, 565 150 L565 165 L35 165 Z"
+              class="body-fill" stroke-width="3"/>
+        <!-- окна -->
+        <path d="M182 60 C215 47, 318 46, 362 58 L378 92 L198 92 Z" fill="none" stroke="#5a5d61" stroke-width="2" opacity=".7"/>
+        <!-- характерная линия BMW по борту -->
+        <line x1="60" y1="128" x2="555" y2="128" stroke="#3a3c3f" stroke-width="2" opacity=".6"/>
+        <!-- колёса -->
+        <circle cx="145" cy="165" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="450" cy="165" r="26" fill="none" stroke="currentColor" stroke-width="3"/>
+        <!-- круглые фары E34 (сдвоенные) -->
+        <circle class="headlight" id="headL-bmw" cx="52" cy="103" r="8"/>
+        <circle class="headlight" id="headR-bmw" cx="548" cy="103" r="8"/>
+      </svg>
+    </div>
+ 
+    <div class="dash">
+      <div class="dial">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="6"/>
+          <path d="M14 70 A42 42 0 1 1 86 70" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" id="rpmArc-bmw" stroke-dasharray="170" stroke-dashoffset="170"/>
+          <line class="needle" id="rpmNeedle-bmw" x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="3" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="dial-val" id="rpmVal-bmw">0</div>
+        <div class="dial-lbl">RPM x100</div>
+      </div>
+      <div class="dial">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--line)" stroke-width="6"/>
+          <path d="M14 70 A42 42 0 1 1 86 70" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" id="spdArc-bmw" stroke-dasharray="170" stroke-dashoffset="170"/>
+          <line class="needle" id="spdNeedle-bmw" x1="50" y1="50" x2="50" y2="18" stroke="var(--ink)" stroke-width="3" transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="dial-val" id="spdVal-bmw">0</div>
+        <div class="dial-lbl">км/ч</div>
+      </div>
+    </div>
+ 
+    <button class="ignition-btn" id="ignitionBtn-bmw" data-car="bmw">
+      <span class="dot"></span>
+      <span id="ignitionLabel-bmw">Завести двигатель</span>
+    </button>
+    <div class="engine-status" id="engineStatus-bmw">Двигатель выключен</div>
+  </div>
+</section>
+ 
+<section id="specs">
+  <div class="section-head">
+    <span class="eyebrow">Технические данные</span>
+    <h2 id="specsTitle">Базовые характеристики</h2>
+  </div>
+  <div class="specs-grid" id="specsGrid">
+    <div class="spec-card"><div class="spec-num">4.86 м</div><div class="spec-lbl">Длина кузова</div></div>
+    <div class="spec-card"><div class="spec-num">1.86 м</div><div class="spec-lbl">Ширина</div></div>
+    <div class="spec-card"><div class="spec-num">1.47 м</div><div class="spec-lbl">Высота</div></div>
+    <div class="spec-card"><div class="spec-num">2.80 м</div><div class="spec-lbl">Колёсная база</div></div>
+    <div class="spec-card"><div class="spec-num">510 л</div><div class="spec-lbl">Объём багажника</div></div>
+    <div class="spec-card"><div class="spec-num">6-АКПП</div><div class="spec-lbl">Трансмиссия</div></div>
+    <div class="spec-card"><div class="spec-num">Перед.</div><div class="spec-lbl">Привод</div></div>
+    <div class="spec-card"><div class="spec-num">1 565 кг</div><div class="spec-lbl">Масса (база)</div></div>
+  </div>
+</section>
+ 
+<section id="trims">
+  <div class="section-head">
+    <span class="eyebrow" id="trimsEyebrow">Линейка моторов</span>
+    <h2 id="trimsTitle">Версии и двигатели 2017</h2>
+  </div>
+  <div class="trims">
+    <table>
+      <thead id="trimsHead">
+        <tr><th>Версия</th><th>Двигатель</th><th>Мощность</th><th>Крутящий момент</th><th>Расход (комб.)</th></tr>
+      </thead>
+      <tbody id="trimsBody">
+        <tr><td>LX</td><td>2.4 GDI</td><td>185 л.с.</td><td>241 Н·м</td><td>9.1 л/100км</td></tr>
+        <tr><td>EX</td><td>2.4 GDI</td><td>185 л.с.</td><td>241 Н·м</td><td>9.1 л/100км</td></tr>
+        <tr><td>Hybrid</td><td>2.0 GDI + эл.двиг.</td><td>199 л.с. (сум.)</td><td>189 Н·м</td><td>5.4 л/100км</td></tr>
+        <tr><td>SX / GT</td><td>2.0 T-GDI</td><td>245 л.с.</td><td>353 Н·м</td><td>10.2 л/100км</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+ 
+<section id="profile">
+  <div class="section-head">
+    <span class="eyebrow">Личный кабинет</span>
+    <h2>Профиль владельца</h2>
+  </div>
+  <div class="profile-wrap">
+    <div class="profile-card">
+      <div class="avatar" id="avatarInitial">A</div>
+      <h3 id="ownerName">Aidar</h3>
+      <div class="role" id="ownerRole">Владелец K5 / GT-Line</div>
+      <div class="profile-stats">
+        <div><div class="stat-num" id="statMileage">87 400</div><div class="stat-lbl">км пробег</div></div>
+        <div><div class="stat-num" id="statYear">2017</div><div class="stat-lbl">год выпуска</div></div>
+        <div><div class="stat-num" id="statEngine">2.0T</div><div class="stat-lbl">двигатель</div></div>
+        <div><div class="stat-num" id="logCount">3</div><div class="stat-lbl">записи в журнале</div></div>
+      </div>
+    </div>
+ 
+    <div class="service-log">
+      <h3 id="logTitleHead">Журнал обслуживания — K5</h3>
+      <div id="logList">
+        <div class="log-item">
+          <div><strong>Замена масла и фильтра</strong><div class="date">12.03.2026</div></div>
+          <div class="log-right"><span class="log-status">Готово</span><button class="log-del" title="Удалить запись">✕</button></div>
+        </div>
+        <div class="log-item">
+          <div><strong>Замена тормозных колодок</strong><div class="date">28.01.2026</div></div>
+          <div class="log-right"><span class="log-status">Готово</span><button class="log-del" title="Удалить запись">✕</button></div>
+        </div>
+        <div class="log-item">
+          <div><strong>Диагностика подвески</strong><div class="date">15.11.2025</div></div>
+          <div class="log-right"><span class="log-status">Готово</span><button class="log-del" title="Удалить запись">✕</button></div>
+        </div>
+      </div>
+      <form class="add-log-form" id="logForm">
+        <input type="text" id="logTitle" placeholder="Что сделали?" required>
+        <input type="date" id="logDate">
+        <button type="submit" class="btn btn-primary">Добавить</button>
+      </form>
+      <div class="form-hint" id="formHint"></div>
+    </div>
+  </div>
+</section>
+ 
+<section id="gallery">
+  <div class="section-head">
+    <span class="eyebrow">Внешний вид</span>
+    <h2 id="galleryTitle">Галерея</h2>
+  </div>
+  <div class="gallery" id="galleryGrid">
+    <!-- заполняется через JS встроенными SVG-иллюстрациями, см. renderGallerySvg() -->
+  </div>
+</section>
+ 
+<footer>
+  <span id="footerText">KIA K5 (Optima) 2017 — информационная страница</span>
+  <span>Сделано на HTML/CSS/JS · один файл</span>
+</footer>
+ 
+<script>
+  // ===== ВСПОМОГАТЕЛЬНОЕ =====
+  function $(sel){ return document.querySelector(sel); }
+  function $all(sel){ return Array.from(document.querySelectorAll(sel)); }
+ 
+  // ===== НАВИГАЦИЯ (скролл по кнопкам) =====
+  $all('[data-target]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-target');
+      var el = document.getElementById(id);
+      if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+ 
+  // ===== ТЁМНАЯ ТЕМА =====
+  var body = document.body;
+  var themeToggle = $('#themeToggle');
+  var themeKnob = $('#themeKnob');
+ 
+  function applyTheme(t){
+    body.setAttribute('data-theme', t);
+    themeKnob.textContent = (t === 'dark') ? '☾' : '☀';
+    try { localStorage.setItem('k5-theme', t); } catch(e){}
+  }
+ 
+  themeToggle.addEventListener('click', function(){
+    var current = body.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+ 
+  (function initTheme(){
+    var saved = null;
+    try { saved = localStorage.getItem('k5-theme'); } catch(e){}
+    if(saved === 'dark' || saved === 'light'){ applyTheme(saved); }
+  })();
+ 
+  // ===== ЗВУК ДВИГАТЕЛЯ (Web Audio API, без внешних файлов) =====
+  var audioCtx = null;
+  var engineNodes = {}; // ключ — id машины, значение — { osc, osc2, gain, noiseSrc, lfo }
+ 
+  function getAudioCtx(){
+    if(!audioCtx){
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new Ctx();
+    }
+    if(audioCtx.state === 'suspended'){ audioCtx.resume(); }
+    return audioCtx;
+  }
+ 
+  function playStarterSound(ctx, kind){
+    // короткий треск стартера; у дизеля более низкий и "тяжёлый"
+    var dur = (kind === 'diesel') ? 0.55 : 0.35;
+    var bufferSize = ctx.sampleRate * dur;
+    var buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    var data = buffer.getChannelData(0);
+    var crankFreq = (kind === 'diesel') ? 0.07 : 0.12;
+    for(var i = 0; i < bufferSize; i++){
+      var envelope = 1 - (i / bufferSize);
+      var click = (Math.random() * 2 - 1);
+      var crank = Math.sin(i * crankFreq) * 0.6;
+      data[i] = (click * 0.5 + crank * 0.5) * envelope;
+    }
+    var src = ctx.createBufferSource();
+    src.buffer = buffer;
+    var gain = ctx.createGain();
+    gain.gain.value = 0.5;
+    src.connect(gain);
+    gain.connect(ctx.destination);
+    src.start();
+  }
+ 
+  function startEngineSound(carId, kind){
+    var ctx = getAudioCtx();
+    playStarterSound(ctx, kind);
+ 
+    var isDiesel = (kind === 'diesel');
+ 
+    var osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.value = isDiesel ? 32 : 45;
+ 
+    var osc2 = ctx.createOscillator();
+    osc2.type = isDiesel ? 'triangle' : 'square';
+    osc2.frequency.value = isDiesel ? 64 : 90;
+ 
+    var noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    var noiseData = noiseBuffer.getChannelData(0);
+    var noiseAmount = isDiesel ? 0.45 : 0.3;
+    for(var i = 0; i < noiseData.length; i++){ noiseData[i] = (Math.random() * 2 - 1) * noiseAmount; }
+    var noiseSrc = ctx.createBufferSource();
+    noiseSrc.buffer = noiseBuffer;
+    noiseSrc.loop = true;
+ 
+    var noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'lowpass';
+    noiseFilter.frequency.value = isDiesel ? 180 : 250;
+ 
+    var gain = ctx.createGain();
+    gain.gain.value = 0;
+ 
+    var lfo = ctx.createOscillator();
+    lfo.frequency.value = isDiesel ? 11 : 7; // дизель стрекочет чаще и грубее
+    var lfoGain = ctx.createGain();
+    lfoGain.gain.value = isDiesel ? 0.07 : 0.04;
+    lfo.connect(lfoGain);
+    lfoGain.connect(gain.gain);
+ 
+    osc.connect(gain);
+    osc2.connect(gain);
+    noiseSrc.connect(noiseFilter);
+    noiseFilter.connect(gain);
+    gain.connect(ctx.destination);
+ 
+    var now = ctx.currentTime;
+    var delay = isDiesel ? 0.5 : 0.3;
+    osc.start(now + delay);
+    osc2.start(now + delay);
+    noiseSrc.start(now + delay);
+    lfo.start(now + delay);
+    gain.gain.setValueAtTime(0, now + delay);
+    gain.gain.linearRampToValueAtTime(isDiesel ? 0.22 : 0.18, now + delay + 0.3);
+ 
+    engineNodes[carId] = { osc: osc, osc2: osc2, gain: gain, noiseSrc: noiseSrc, lfo: lfo };
+  }
+ 
+  function stopEngineSound(carId){
+    var nodes = engineNodes[carId];
+    if(!nodes) return;
+    var ctx = getAudioCtx();
+    var now = ctx.currentTime;
+    var g = nodes.gain;
+    g.gain.cancelScheduledValues(now);
+    g.gain.setValueAtTime(g.gain.value, now);
+    g.gain.linearRampToValueAtTime(0, now + 0.25);
+ 
+    setTimeout(function(){
+      try{ nodes.osc.stop(); }catch(e){}
+      try{ nodes.osc2.stop(); }catch(e){}
+      try{ nodes.noiseSrc.stop(); }catch(e){}
+      try{ nodes.lfo.stop(); }catch(e){}
+    }, 300);
+    delete engineNodes[carId];
+  }
+ 
+  // ===== ДАННЫЕ МАШИН =====
+  var CARS = {
+    k5: {
+      brand: 'K5 <span>/ OPTIMA</span>',
+      eyebrow: 'Седан среднего класса · 3-е поколение',
+      title: 'KIA K5<br>2017',
+      desc: 'Известен на глобальном рынке как Kia Optima — спортивный седан с агрессивным дизайном решётки «тигриный нос» и турбомотором 2.0T на версии GT. Нажми «Завести двигатель» справа.',
+      specsTitle: 'Базовые характеристики',
+      specs: [
+        ['4.86 м','Длина кузова'], ['1.86 м','Ширина'], ['1.47 м','Высота'],
+        ['2.80 м','Колёсная база'], ['510 л','Объём багажника'], ['6-АКПП','Трансмиссия'],
+        ['Перед.','Привод'], ['1 565 кг','Масса (база)']
+      ],
+      trimsEyebrow: 'Линейка моторов',
+      trimsTitle: 'Версии и двигатели 2017',
+      trimsHead: ['Версия','Двигатель','Мощность','Крутящий момент','Расход (комб.)'],
+      trims: [
+        ['LX','2.4 GDI','185 л.с.','241 Н·м','9.1 л/100км'],
+        ['EX','2.4 GDI','185 л.с.','241 Н·м','9.1 л/100км'],
+        ['Hybrid','2.0 GDI + эл.двиг.','199 л.с. (сум.)','189 Н·м','5.4 л/100км'],
+        ['SX / GT','2.0 T-GDI','245 л.с.','353 Н·м','10.2 л/100км']
+      ],
+      role: 'Владелец K5 / GT-Line',
+      mileage: '87 400', year: '2017', engineLbl: '2.0T',
+      logTitleHead: 'Журнал обслуживания — K5',
+      galleryTitle: 'Галерея — K5',
+      gallerySvg: 'k5',
+      footer: 'KIA K5 (Optima) 2017 — информационная страница',
+      soundKind: 'gas'
+    },
+    sprinter: {
+      brand: 'Sprinter <span>/ 1998</span>',
+      eyebrow: 'Цельнометаллический фургон · 1-е поколение (W901-905)',
+      title: 'Mercedes<br>Sprinter 1998',
+      desc: 'Белый цельнометаллический фургон первого поколения. Простой и надёжный дизель, прямоугольный кузов и круглые фары — рабочая лошадка девяностых. Нажми «Завести двигатель» справа.',
+      specsTitle: 'Базовые характеристики (308D)',
+      specs: [
+        ['5.91 м','Длина кузова'], ['1.99 м','Ширина'], ['2.41 м','Высота'],
+        ['3.55 м','Колёсная база'], ['10.5 м³','Объём кузова'], ['5-МКПП','Трансмиссия'],
+        ['Задн.','Привод'], ['2 215 кг','Масса (база)']
+      ],
+      trimsEyebrow: 'Линейка моторов 1998',
+      trimsTitle: 'Версии и двигатели 1998',
+      trimsHead: ['Версия','Двигатель','Мощность','Крутящий момент','Расход (комб.)'],
+      trims: [
+        ['208D','2.3 D','82 л.с.','167 Н·м','11.5 л/100км'],
+        ['308D','2.9 D (OM602)','107 л.с.','255 Н·м','12.0 л/100км'],
+        ['312D','2.9 D (OM602)','122 л.с.','280 Н·м','12.4 л/100км'],
+        ['412D','2.9 D (OM602, удлин.)','122 л.с.','280 Н·м','13.0 л/100км']
+      ],
+      role: 'Владелец Sprinter / Цельнометаллический',
+      mileage: '212 000', year: '1998', engineLbl: '2.9D',
+      logTitleHead: 'Журнал обслуживания — Sprinter',
+      galleryTitle: 'Галерея — Sprinter',
+      gallerySvg: 'sprinter',
+      footer: 'Mercedes-Benz Sprinter 1998 (W901-905) — информационная страница',
+      soundKind: 'diesel'
+    },
+    bmw: {
+      brand: 'BMW <span>E34</span>',
+      eyebrow: 'Седан бизнес-класса · 5 серия, кузов E34',
+      title: 'BMW 5-Series<br>E34 1992',
+      desc: 'Чёрный седан второго поколения «пятёрки» — рядная классика начала 90-х: чёткие линии, круглые сдвоенные фары и культовый мотор M50. Нажми «Завести двигатель» справа.',
+      specsTitle: 'Базовые характеристики (525i)',
+      specs: [
+        ['4.72 м','Длина кузова'], ['1.75 м','Ширина'], ['1.41 м','Высота'],
+        ['2.76 м','Колёсная база'], ['460 л','Объём багажника'], ['5-МКПП','Трансмиссия'],
+        ['Задн.','Привод'], ['1 460 кг','Масса (база)']
+      ],
+      trimsEyebrow: 'Линейка моторов 1992',
+      trimsTitle: 'Версии и двигатели 1992',
+      trimsHead: ['Версия','Двигатель','Мощность','Крутящий момент','Расход (комб.)'],
+      trims: [
+        ['518i','1.8 M40','115 л.с.','165 Н·м','9.8 л/100км'],
+        ['520i','2.0 M50','150 л.с.','190 Н·м','10.5 л/100км'],
+        ['525i','2.5 M50','192 л.с.','245 Н·м','11.2 л/100км'],
+        ['535i','3.5 M30','211 л.с.','310 Н·м','12.8 л/100км']
+      ],
+      role: 'Владелец BMW E34 / 525i',
+      mileage: '298 500', year: '1992', engineLbl: '2.5i',
+      logTitleHead: 'Журнал обслуживания — BMW E34',
+      galleryTitle: 'Галерея — BMW E34',
+      gallerySvg: 'bmw',
+      footer: 'BMW 5-Series E34 1992 — информационная страница',
+      soundKind: 'gas'
+    }
+  };
+ 
+  var currentCar = 'k5';
+ 
+  // ===== ГАЛЕРЕЯ: встроенные SVG-иллюстрации (не зависят от сети, всегда работают) =====
+  var GALLERY_COLORS = {
+    k5:       { body:'#c6cdd4', accent:'#2f7cf6', glass:'#7c8a96' },
+    sprinter: { body:'#f4f5f6', accent:'#c7cbce', glass:'#9aa0a5' },
+    bmw:      { body:'#1c1d1f', accent:'#3a3c3f', glass:'#5a5d61' }
+  };
+ 
+  function gallerySceneSide(kind){
+    var col = GALLERY_COLORS[kind];
+    var bodyPath = (kind === 'sprinter')
+      ? 'M40 150 L40 70 C40 60,48 52,60 52 L300 52 C325 52,342 64,355 86 L355 150 Z'
+      : 'M30 145 C38 110,70 96,112 92 L150 64 C182 52,268 50,308 62 L362 92 C400 95,335 92,378 130 L378 145 Z';
+    return '<svg class="gallery-svg" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect width="400" height="200" fill="var(--bg)"/>' +
+      '<line x1="0" y1="160" x2="400" y2="160" stroke="var(--line)" stroke-width="2"/>' +
+      '<path d="' + bodyPath + '" fill="' + col.body + '" stroke="' + col.accent + '" stroke-width="3"/>' +
+      '<circle cx="95" cy="160" r="20" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>' +
+      '<circle cx="' + (kind==='sprinter' ? 300 : 295) + '" cy="160" r="20" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/>' +
+      '</svg>';
+  }
+ 
+  function gallerySceneFront(kind){
+    var col = GALLERY_COLORS[kind];
+    var w = (kind === 'sprinter') ? 160 : 200;
+    var h = (kind === 'sprinter') ? 130 : 80;
+    var x = 200 - w/2;
+    var y = 165 - h;
+    return '<svg class="gallery-svg" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect width="400" height="200" fill="var(--bg)"/>' +
+      '<line x1="0" y1="165" x2="400" y2="165" stroke="var(--line)" stroke-width="2"/>' +
+      '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + (kind==='sprinter'?6:18) + '" fill="' + col.body + '" stroke="' + col.accent + '" stroke-width="3"/>' +
+      '<circle cx="' + (x+w*0.18) + '" cy="' + (y+h*0.55) + '" r="9" fill="#fff4cf" stroke="' + col.accent + '" stroke-width="2"/>' +
+      '<circle cx="' + (x+w*0.82) + '" cy="' + (y+h*0.55) + '" r="9" fill="#fff4cf" stroke="' + col.accent + '" stroke-width="2"/>' +
+      '<rect x="' + (x+w*0.3) + '" y="' + (y+h*0.15) + '" width="' + (w*0.4) + '" height="' + (h*0.18) + '" rx="4" fill="' + col.glass + '" opacity=".6"/>' +
+      '</svg>';
+  }
+ 
+  function gallerySceneGarage(kind){
+    var col = GALLERY_COLORS[kind];
+    return '<svg class="gallery-svg" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect width="400" height="200" fill="var(--ink)" opacity=".92"/>' +
+      '<rect x="20" y="20" width="360" height="120" fill="none" stroke="' + col.accent + '" stroke-width="1" opacity=".25"/>' +
+      '<circle cx="130" cy="100" r="14" fill="#ffe27a" opacity=".9"/>' +
+      '<circle cx="270" cy="100" r="14" fill="#ffe27a" opacity=".9"/>' +
+      '<polygon points="130,100 40,80 40,120" fill="#ffe27a" opacity=".25"/>' +
+      '<polygon points="270,100 360,80 360,120" fill="#ffe27a" opacity=".25"/>' +
+      '<path d="M70 150 C80 120,110 108,150 104 L190 84 C215 76,260 76,288 86 L320 106 C345 108,355 120,360 150 Z" fill="' + col.body + '" opacity=".95"/>' +
+      '<line x1="0" y1="160" x2="400" y2="160" stroke="' + col.accent + '" stroke-width="2" opacity=".4"/>' +
+      '</svg>';
+  }
+ 
+  function renderGallerySvg(kind){
+    var scenes = [
+      [gallerySceneSide(kind), 'Вид сбоку'],
+      [gallerySceneFront(kind), 'Вид спереди'],
+      [gallerySceneGarage(kind), 'В гараже, фары включены']
+    ];
+    return scenes.map(function(s){
+      return '<figure class="gallery-item">' + s[0] + '<figcaption>' + s[1] + '</figcaption></figure>';
+    }).join('');
+  }
+ 
+  function renderCar(carId){
+    var c = CARS[carId];
+    $('#brandText').innerHTML = c.brand;
+    $('#heroEyebrow').textContent = c.eyebrow;
+    $('#heroTitle').innerHTML = c.title;
+    $('#heroDesc').textContent = c.desc;
+ 
+    $('#specsTitle').textContent = c.specsTitle;
+    var specsGrid = $('#specsGrid');
+    specsGrid.innerHTML = c.specs.map(function(s){
+      return '<div class="spec-card"><div class="spec-num">'+s[0]+'</div><div class="spec-lbl">'+s[1]+'</div></div>';
+    }).join('');
+ 
+    $('#trimsEyebrow').textContent = c.trimsEyebrow;
+    $('#trimsTitle').textContent = c.trimsTitle;
+    $('#trimsHead').innerHTML = '<tr>' + c.trimsHead.map(function(h){ return '<th>'+h+'</th>'; }).join('') + '</tr>';
+    $('#trimsBody').innerHTML = c.trims.map(function(row){
+      return '<tr>' + row.map(function(cell){ return '<td>'+cell+'</td>'; }).join('') + '</tr>';
+    }).join('');
+ 
+    $('#ownerRole').textContent = c.role;
+    $('#statMileage').textContent = c.mileage;
+    $('#statYear').textContent = c.year;
+    $('#statEngine').textContent = c.engineLbl;
+    $('#logTitleHead').textContent = c.logTitleHead;
+ 
+    $('#galleryTitle').textContent = c.galleryTitle;
+    $('#galleryGrid').innerHTML = renderGallerySvg(c.gallerySvg);
+ 
+    $('#footerText').textContent = c.footer;
+ 
+    // показать нужную ignition-карточку, скрыть остальные
+    Object.keys(CARS).forEach(function(id){
+      var card = document.getElementById('card-' + id);
+      if(card){ card.classList.toggle('hidden', id !== carId); }
+    });
+ 
+    // переключить активную кнопку вкладки
+    $all('#carSwitch button').forEach(function(btn){
+      btn.classList.toggle('active', btn.getAttribute('data-car') === carId);
+    });
+ 
+    currentCar = carId;
+  }
+ 
+  $all('#carSwitch button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var carId = btn.getAttribute('data-car');
+      if(carId !== currentCar){ renderCar(carId); }
+    });
+  });
+ 
+  // ===== ЗАПУСК ДВИГАТЕЛЯ (главный wow-элемент, для каждой машины свой набор узлов) =====
+  var engineState = {}; // carId -> { on: bool, interval: id }
+ 
+  function setGauge(needle, arc, percent){
+    var angle = -90 + (percent * 180);
+    needle.setAttribute('transform', 'rotate(' + angle + ' 50 50)');
+    var offset = 170 - (170 * percent);
+    arc.setAttribute('stroke-dashoffset', offset);
+  }
+ 
+  function resetGauges(carId){
+    setGauge($('#rpmNeedle-' + carId), $('#rpmArc-' + carId), 0);
+    setGauge($('#spdNeedle-' + carId), $('#spdArc-' + carId), 0);
+    $('#rpmVal-' + carId).textContent = '0';
+    $('#spdVal-' + carId).textContent = '0';
+  }
+ 
+  function startEngine(carId){
+    var soundKind = CARS[carId].soundKind === 'diesel' ? 'diesel' : 'gas';
+    engineState[carId] = engineState[carId] || {};
+    engineState[carId].on = true;
+ 
+    $('#ignitionBtn-' + carId).classList.add('running');
+    $('#ignitionLabel-' + carId).textContent = 'Заглушить двигатель';
+    $('#engineStatus-' + carId).textContent = 'Двигатель работает — фары включены';
+ 
+    startEngineSound(carId, soundKind);
+ 
+    $('#headL-' + carId).classList.add('lit');
+    $('#headR-' + carId).classList.add('lit');
+    $('#beamL-' + carId).classList.add('lit');
+    $('#beamR-' + carId).classList.add('lit');
+ 
+    var t = 0;
+    if(engineState[carId].interval) clearInterval(engineState[carId].interval);
+    var isDiesel = (soundKind === 'diesel');
+    engineState[carId].interval = setInterval(function(){
+      t += 0.12;
+      var base = isDiesel ? 0.28 : 0.35;
+      var rpmPercent = base + Math.sin(t) * (isDiesel ? 0.1 : 0.15) + 0.15;
+      rpmPercent = Math.max(0.1, Math.min(isDiesel ? 0.65 : 0.85, rpmPercent));
+      var spdPercent = Math.max(0, Math.min(isDiesel ? 0.55 : 0.7, (t - 0.3) * (isDiesel ? 0.08 : 0.12)));
+ 
+      setGauge($('#rpmNeedle-' + carId), $('#rpmArc-' + carId), rpmPercent);
+      setGauge($('#spdNeedle-' + carId), $('#spdArc-' + carId), spdPercent);
+      $('#rpmVal-' + carId).textContent = Math.round(rpmPercent * (isDiesel ? 45 : 70));
+      $('#spdVal-' + carId).textContent = Math.round(spdPercent * (isDiesel ? 140 : 220));
+    }, 220);
+  }
+ 
+  function stopEngine(carId){
+    engineState[carId] = engineState[carId] || {};
+    engineState[carId].on = false;
+ 
+    $('#ignitionBtn-' + carId).classList.remove('running');
+    $('#ignitionLabel-' + carId).textContent = 'Завести двигатель';
+    $('#engineStatus-' + carId).textContent = 'Двигатель выключен';
+ 
+    stopEngineSound(carId);
+ 
+    $('#headL-' + carId).classList.remove('lit');
+    $('#headR-' + carId).classList.remove('lit');
+    $('#beamL-' + carId).classList.remove('lit');
+    $('#beamR-' + carId).classList.remove('lit');
+ 
+    if(engineState[carId].interval){ clearInterval(engineState[carId].interval); engineState[carId].interval = null; }
+    resetGauges(carId);
+  }
+ 
+  $all('.ignition-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var carId = btn.getAttribute('data-car');
+      var isOn = engineState[carId] && engineState[carId].on;
+      if(isOn){ stopEngine(carId); } else { startEngine(carId); }
+    });
+  });
+ 
+  // ===== ЖУРНАЛ ОБСЛУЖИВАНИЯ: добавление и удаление =====
+  var logForm = $('#logForm');
+  var logList = $('#logList');
+  var logCount = $('#logCount');
+ 
+  function updateLogCount(){
+    logCount.textContent = $all('#logList .log-item').length;
+  }
+ 
+  function attachDelete(item){
+    var delBtn = item.querySelector('.log-del');
+    delBtn.addEventListener('click', function(){
+      item.remove();
+      updateLogCount();
+    });
+  }
+ 
+  $all('#logList .log-item').forEach(attachDelete);
+ 
+  var formHint = $('#formHint');
+ 
+  logForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var titleInput = $('#logTitle');
+    var dateInput = $('#logDate');
+    var title = titleInput.value.trim();
+    var dateStr = dateInput.value;
+ 
+    formHint.textContent = '';
+ 
+    if(!title){
+      formHint.textContent = 'Напиши, что сделали (поле не может быть пустым)';
+      titleInput.focus();
+      return;
+    }
+ 
+    var d;
+    if(dateStr){
+      d = new Date(dateStr + 'T00:00:00');
+    } else {
+      d = new Date(); // дата не выбрана — берём сегодняшнюю
+    }
+    var formatted = d.toLocaleDateString('ru-RU');
+ 
+    var item = document.createElement('div');
+    item.className = 'log-item';
+    item.innerHTML =
+      '<div><strong></strong><div class="date"></div></div>' +
+      '<div class="log-right"><span class="log-status">Готово</span><button class="log-del" title="Удалить запись">✕</button></div>';
+    item.querySelector('strong').textContent = title;
+    item.querySelector('.date').textContent = formatted;
+ 
+    logList.prepend(item);
+    attachDelete(item);
+    updateLogCount();
+ 
+    logForm.reset();
+    titleInput.focus();
+  });
+ 
+  // ===== ИНИЦИАЛИЗАЦИЯ =====
+  renderCar('k5');
+ 
+</script>
+ 
+</body>
+</html>
